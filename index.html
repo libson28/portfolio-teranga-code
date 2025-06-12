@@ -16,24 +16,6 @@
             content: "\f3c2";
         }
 
-        .masonry-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            grid-gap: 1.5rem;
-        }
-
-        .masonry-item:nth-child(3n+1) {
-            grid-row: span 1;
-        }
-
-        .masonry-item:nth-child(3n+2) {
-            grid-row: span 2;
-        }
-
-        .masonry-item:nth-child(3n) {
-            grid-row: span 1;
-        }
-
         .testimonial-slider {
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
@@ -105,62 +87,75 @@
             animation: scroll-loop 30s linear infinite;
             width: max-content;
         }
+
+        .aspect-w-16 {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 */
+  }
+  .aspect-w-16 iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+  }
     </style>
 </head>
 
 <body class="bg-gray-50">
-    <!-- Navigation -->
+    <!-- NAVIGATION -->
     <header class="fixed top-0 left-0 w-full bg-white shadow-sm z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#accueil" class="font-['Pacifico'] text-2xl text-primary"><img src="logo-removebg-preview.png"
-                    style="width: 120px;" alt=""></a>
+            <a href="#accueil" class="font-['Pacifico'] text-2xl text-primary">
+                <img src="logo-removebg-preview.png" style="width: 120px;" alt="Logo" />
+            </a>
+
+            <!-- Menu Desktop -->
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#accueil" class="text-gray-800 hover:text-primary transition-colors font-medium">Accueil</a>
-                <a href="#a-propos" class="text-gray-800 hover:text-primary transition-colors font-medium">À propos</a>
-                <a href="#realisations"
-                    class="text-gray-800 hover:text-primary transition-colors font-medium">Réalisations</a>
-                <a href="#temoignages"
-                    class="text-gray-800 hover:text-primary transition-colors font-medium">Témoignages</a>
-                <a href="#contact" class="text-gray-800 hover:text-primary transition-colors font-medium">Contact</a>
+                <a href="#accueil" class="text-gray-800 hover:text-primary transition font-medium">Accueil</a>
+                <a href="#a-propos" class="text-gray-800 hover:text-primary transition font-medium">À propos</a>
+                <a href="#realisations" class="text-gray-800 hover:text-primary transition font-medium">Réalisations</a>
+                <a href="#temoignages" class="text-gray-800 hover:text-primary transition font-medium">Témoignages</a>
+                <a href="#contact" class="text-gray-800 hover:text-primary transition font-medium">Contact</a>
             </nav>
-            <button id="mobile-menu-button" class="md:hidden w-10 h-10 flex items-center justify-center text-gray-700">
-                <i class="ri-menu-line ri-lg"></i>
+
+            <!-- Bouton Mobile -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-700 text-2xl focus:outline-none">
+                <i class="ri-menu-line"></i>
             </button>
         </div>
 
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
-            <div class="container mx-auto px-6 py-3 flex flex-col space-y-4">
-                <a href="#accueil" class="text-gray-800 py-2 border-b border-gray-100">Accueil</a>
-                <a href="#a-propos" class="text-gray-800 py-2 border-b border-gray-100">À propos</a>
-                <a href="#realisations" class="text-gray-800 py-2 border-b border-gray-100">Réalisations</a>
-                <a href="#temoignages" class="text-gray-800 py-2 border-b border-gray-100">Témoignages</a>
-                <a href="#contact" class="text-gray-800 py-2">Contact</a>
+        <!-- Menu Mobile -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white w-full border-t border-gray-100">
+            <div class="px-6 py-4 flex flex-col space-y-4">
+                <a href="#accueil" class="text-gray-800 border-b pb-2">Accueil</a>
+                <a href="#a-propos" class="text-gray-800 border-b pb-2">À propos</a>
+                <a href="#realisations" class="text-gray-800 border-b pb-2">Réalisations</a>
+                <a href="#temoignages" class="text-gray-800 border-b pb-2">Témoignages</a>
+                <a href="#contact" class="text-gray-800">Contact</a>
             </div>
         </div>
     </header>
-    <script id="navigation-script">
-        document.addEventListener('DOMContentLoaded', function () {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
-            mobileMenuButton.addEventListener('click', function () {
+            menuBtn.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
 
-            // Close mobile menu when clicking on a link
-            const mobileLinks = mobileMenu.querySelectorAll('a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', function () {
+            // Fermeture du menu au clic sur un lien
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
                     mobileMenu.classList.add('hidden');
                 });
             });
 
-            // Smooth scrolling for navigation links
+            // Scroll fluide
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
-
                     const targetId = this.getAttribute('href');
                     const targetElement = document.querySelector(targetId);
 
@@ -174,6 +169,7 @@
             });
         });
     </script>
+
 
     <!-- Hero Section -->
     <section id="accueil" class="w-full min-h-screen pt-20 flex items-center"
@@ -778,57 +774,127 @@
 
     <!-- Contact Section -->
     <section id="contact" class="py-20 bg-gray-50 relative">
-        <div class="container mx-auto px-6 relative z-10">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Contactez-nous</h2>
-            <p class="text-gray-600 text-center max-w-3xl mx-auto mb-12">Vous avez un projet en tête ? N'hésitez pas à
-                nous contacter pour discuter de vos besoins et obtenir un devis personnalisé.</p>
+  <div class="container mx-auto px-6 relative z-10">
+    <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Contactez-nous</h2>
+    <p class="text-gray-600 text-center max-w-3xl mx-auto mb-12">
+      Vous avez un projet en tête ? N'hésitez pas à nous contacter pour discuter de vos besoins et obtenir un devis personnalisé.
+    </p>
 
-            <div class="grid md:grid-cols-2 gap-12">
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <h3 class="text-2xl font-semibold mb-6 text-gray-800">Envoyez-nous un message</h3>
-                    <form id="contact-form">
-                        <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label for="firstname" class="block text-gray-700 mb-2">Prénom</label>
-                                <input type="text" id="firstname"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
-                                    placeholder="Votre prénom">
-                            </div>
-                            <div>
-                                <label for="lastname" class="block text-gray-700 mb-2">Nom</label>
-                                <input type="text" id="lastname"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
-                                    placeholder="Votre nom">
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="email" class="block text-gray-700 mb-2">Email</label>
-                            <input type="email" id="email"
-                                class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
-                                placeholder="Votre email">
-                        </div>
-                        <div class="mb-4">
-                            <label for="subject" class="block text-gray-700 mb-2">Sujet</label>
-                            <input type="text" id="subject"
-                                class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
-                                placeholder="Sujet de votre message">
-                        </div>
-                        <div class="mb-6">
-                            <label for="message" class="block text-gray-700 mb-2">Message</label>
-                            <textarea id="message" rows="5"
-                                class="w-full px-4 py-2 border border-gray-300 rounded focus:border-primary"
-                                placeholder="Votre message"></textarea>
-                        </div>
-                        <div class="mb-6 flex items-start">
-                            <input type="checkbox" id="privacy" class="custom-checkbox mr-3">
-                            <label for="privacy" class="text-gray-600 text-sm">J'accepte que mes données soient traitées
-                                conformément à la politique de confidentialité.</label>
-                        </div>
-                        <button type="submit"
-                            class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-blue-600 transition-colors shadow-md whitespace-nowrap">Envoyer
-                            le message</button>
-                    </form>
-                </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 h-auto">
+      <!-- Formulaire -->
+      <div class="w-full max-w-xl mx-auto bg-white p-8 rounded-lg shadow-sm">
+        <h3 class="text-2xl font-semibold mb-6 text-gray-800">Envoyez-nous un message</h3>
+        <form id="contact-form">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="firstname" class="block text-gray-700 mb-2">Prénom</label>
+              <input type="text" id="firstname" class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:border-primary focus:outline-none" placeholder="Votre prénom">
+            </div>
+            <div>
+              <label for="lastname" class="block text-gray-700 mb-2">Nom</label>
+              <input type="text" id="lastname" class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:border-primary focus:outline-none" placeholder="Votre nom">
+            </div>
+          </div>
+          <div class="mb-4">
+            <label for="email" class="block text-gray-700 mb-2">Email</label>
+            <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:border-primary focus:outline-none" placeholder="Votre email">
+          </div>
+          <div class="mb-4">
+            <label for="subject" class="block text-gray-700 mb-2">Sujet</label>
+            <input type="text" id="subject" class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:border-primary focus:outline-none" placeholder="Sujet de votre message">
+          </div>
+          <div class="mb-6">
+            <label for="message" class="block text-gray-700 mb-2">Message</label>
+            <textarea id="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded text-sm focus:border-primary focus:outline-none" placeholder="Votre message"></textarea>
+          </div>
+          <div class="mb-6 flex items-start">
+            <input type="checkbox" id="privacy" class="mr-3">
+            <label for="privacy" class="text-gray-600 text-sm">J'accepte que mes données soient traitées conformément à la politique de confidentialité.</label>
+          </div>
+          <button type="submit" class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-blue-600 transition-colors shadow-md whitespace-nowrap">
+            Envoyer le message
+          </button>
+        </form>
+      </div>
+
+      <!-- Infos de contact + carte -->
+      <div class="w-full max-w-xl mx-auto">
+        <div class="bg-white p-8 rounded-lg shadow-sm mb-8">
+          <h3 class="text-2xl font-semibold mb-6 text-gray-800">Informations de contact</h3>
+          <div class="space-y-4">
+            <div class="flex items-start">
+              <div class="w-10 h-10 flex items-center justify-center text-primary mr-4">
+                <i class="ri-map-pin-line ri-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Adresse</h4>
+                <p class="text-gray-600">Point E<br>Piscine olympique, Dakar</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-10 h-10 flex items-center justify-center text-primary mr-4">
+                <i class="ri-mail-line ri-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Email</h4>
+                <p class="text-gray-600">contact@TerangaCode.sn</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-10 h-10 flex items-center justify-center text-primary mr-4">
+                <i class="ri-phone-line ri-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Téléphone</h4>
+                <p class="text-gray-600">77 746 15 70</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div class="w-10 h-10 flex items-center justify-center text-primary mr-4">
+                <i class="ri-time-line ri-lg"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800">Horaires</h4>
+                <p class="text-gray-600">Lundi - Vendredi : 9h - 18h</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8">
+            <h4 class="font-medium text-gray-800 mb-4">Suivez-nous</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                <i class="ri-linkedin-fill"></i>
+              </a>
+              <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                <i class="ri-twitter-fill"></i>
+              </a>
+              <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                <i class="ri-instagram-fill"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Google Map responsive -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+          <div class="aspect-w-16 aspect-h-9">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15437.088592891929!2d-17.47123062068307!3d14.697195778566243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xec172922e1f283f%3A0x26f341f60ba73d26!2sPoint%20E%2C%20Dakar!5e0!3m2!1sfr!2ssn!4v1749742363596!5m2!1sfr!2ssn"
+              class="w-full h-full border-0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
                 <script id="contact-form-script">
                     document.addEventListener('DOMContentLoaded', function () {
@@ -861,81 +927,6 @@
                         });
                     });
                 </script>
-
-                <div>
-                    <div class="bg-white p-8 rounded-lg shadow-sm mb-8">
-                        <h3 class="text-2xl font-semibold mb-6 text-gray-800">Informations de contact</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 flex items-center justify-center text-primary mr-4">
-                                    <i class="ri-map-pin-line ri-lg"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-medium text-gray-800">Adresse</h4>
-                                    <p class="text-gray-600">point E<br>Piscine olympique , Dakar</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 flex items-center justify-center text-primary mr-4">
-                                    <i class="ri-mail-line ri-lg"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-medium text-gray-800">Email</h4>
-                                    <p class="text-gray-600">contact@TerangaCode.sn</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 flex items-center justify-center text-primary mr-4">
-                                    <i class="ri-phone-line ri-lg"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-medium text-gray-800">Téléphone</h4>
-                                    <p class="text-gray-600">77 746 15 70</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 flex items-center justify-center text-primary mr-4">
-                                    <i class="ri-time-line ri-lg"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-medium text-gray-800">Horaires</h4>
-                                    <p class="text-gray-600">Lundi - Vendredi: 9h - 18h</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-8">
-                            <h4 class="font-medium text-gray-800 mb-4">Suivez-nous</h4>
-                            <div class="flex space-x-4">
-                                <a href="#"
-                                    class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors">
-                                    <i class="ri-linkedin-fill"></i>
-                                </a>
-                                <a href="#"
-                                    class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors">
-                                    <i class="ri-twitter-fill"></i>
-                                </a>
-                                <a href="#"
-                                    class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors">
-                                    <i class="ri-facebook-fill"></i>
-                                </a>
-                                <a href="#"
-                                    class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors">
-                                    <i class="ri-instagram-fill"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-lg shadow-sm overflow-hidden h-64">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15437.088592891929!2d-17.47123062068307!3d14.697195778566243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xec172922e1f283f%3A0x26f341f60ba73d26!2sPoint%20E%2C%20Dakar!5e0!3m2!1sfr!2ssn!4v1749742363596!5m2!1sfr!2ssn"
-                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
