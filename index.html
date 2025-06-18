@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
-    <link rel="icon" type="image/png" href="img/logo-removebg-preview.png">
+    <link rel="icon" type="img/png" href="img/logo-removebg-preview.png">
     <script type="text/javascript">
         (function () {
             emailjs.init("lXyS4PJ5u1pyxxRzO");
@@ -23,6 +23,40 @@
     <style>
         :where([class^="ri-"])::before {
             content: "\f3c2";
+        }
+
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 6px;
+            background: linear-gradient(to right, #007bff, #ffa500, #007bff, #ffa500);
+            /* bleu → orange */
+            z-index: 9999;
+            transition: width 0.2s ease;
+        }
+
+        /* Chevron button */
+        #backToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(to right, #007bff, #ffa500);
+            border: none;
+            border-radius: 50%;
+            padding: 12px;
+            cursor: pointer;
+            display: none;
+            z-index: 10000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.3s ease;
+        }
+
+        #backToTop svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
         }
 
         .testimonial-slider {
@@ -120,6 +154,43 @@
 </head>
 
 <body class="bg-gray-50">
+
+    <div id="scrollProgress"></div>
+
+    <!-- Bouton retour en haut -->
+    <button id="backToTop" aria-label="Retour en haut">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 4l-8 8h5v8h6v-8h5z" />
+        </svg>
+    </button>
+
+    <script>
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+
+            // Afficher ou cacher le bouton retour
+            const backToTop = document.getElementById('backToTop');
+            if (scrollTop > 300) {
+                backToTop.style.display = 'block';
+                backToTop.style.opacity = '1';
+            } else {
+                backToTop.style.opacity = '0';
+                setTimeout(() => backToTop.style.display = 'none', 300);
+            }
+        });
+
+        // Remonter en haut au clic
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 
     <!-- NAVIGATION -->
     <header class="sticky top-0 left-0 w-full bg-white shadow-sm z-50">
@@ -556,7 +627,7 @@
                         },
                         {
                             title: "Landing page - One", category: "Landing page",
-                            url: "https://orangelinkagency.com/", description: "Page d’acquisition avec formulaire & vidéo de démo.", image:"https://img.freepik.com/free-vector/flat-charity-event-landing-page_23-2149399419.jpg?uid=R121268218&ga=GA1.1.562157041.1733921279&semt=ais_hybrid&w=740"
+                            url: "https://orangelinkagency.com/", description: "Page d’acquisition avec formulaire & vidéo de démo.", image: "https://img.freepik.com/free-vector/flat-charity-event-landing-page_23-2149399419.jpg?uid=R121268218&ga=GA1.1.562157041.1733921279&semt=ais_hybrid&w=740"
                         },
                         {
                             title: "Site ONG", category: "Site vitrine",
@@ -717,14 +788,13 @@
                                     <i class="ri-star-half-fill"></i>
                                 </div>
                             </div>
-                            <p class="text-gray-600 italic mb-6">"À TerangaCode, nous formons les talents africains au
-                                numérique par la pratique. Grâce à notre approche « learning by doing », nos apprenants
-                                développent des compétences concrètes à travers des projets réels. Notre mission : faire
-                                émerger une nouvelle génération de professionnels tech, prêts à briller à
-                                l’international."</p>
+                            <p class="text-gray-600 italic mb-6">"TerangaCode forme les talents africains au numérique
+                                par la pratique. Grâce à notre méthode « learning by doing », nos apprenants acquièrent
+                                des compétences concrètes en réalisant des projets réels. Notre objectif : faire émerger
+                                une nouvelle génération de professionnels tech, prêts pour le marché international."</p>
                             <div class="flex items-center">
                                 <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"
-                                    style="background-image: url('https://accademia.terangacode.com/wp-content/uploads/2024/12/terangacode-logo.png'); background-size: cover;">
+                                    style="background-image: url('img/akademi.jpg'); background-size: cover;">
                                 </div>
                                 <div>
                                     <h4 class="font-semibold text-gray-800">TerangaCode Akademia</h4>
@@ -745,18 +815,18 @@
                                     <i class="ri-star-line"></i>
                                 </div>
                             </div>
-                            <p class="text-gray-600 italic mb-6">"Leur professionnalisme, leur curiosité et leur
-                                capacité à appliquer immédiatement les acquis en font des collaborateurs hautement
-                                qualifiés. Nous sommes convaincus qu’ils continuent de porter haut les valeurs de
-                                rigueur, d’agilité et d’innovation technologique que nous encourageons chez Simplon.
-                                Bravo à eux !"</p>
+                            <p class="text-gray-600 italic mb-6">"Avec l’aide de TerangaCode, nous avons mis en place un
+                                logiciel de gestion des classes et des absences parfaitement adapté à nos besoins. Leur
+                                équipe a été professionnelle, réactive et à l’écoute. Aujourd’hui, le suivi des élèves
+                                est plus simple et nos enseignants gagnent en efficacité. Merci à TerangaCode pour cette
+                                solution sur mesure."</p>
                             <div class="flex items-center">
                                 <div class="w-12 h-12 rounded-full bg-gray-300 mr-4"
-                                    style="background-image: url('https://simplon.sn/wp-content/uploads/elementor/thumbs/Copie-de-IMG_1785-scaled-qls5isfjdlmtk6zi722f2ai82lo6hvubmdvarox6ww.jpg'); background-size: cover;">
+                                    style="background-image: url('https://img.freepik.com/free-photo/portrait-smiley-black-man_23-2149022881.jpg?uid=R121268218&ga=GA1.1.562157041.1733921279&semt=ais_hybrid&w=740'); background-size: cover;">
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-gray-800">Ndeye Biteye</h4>
-                                    <p class="text-gray-600 text-sm">Directrice Simplon Sénégal</p>
+                                    <h4 class="font-semibold text-gray-800">Mr Bocoum</h4>
+                                    <p class="text-gray-600 text-sm">Directeur, "Les Ailes du Savoir"</p>
                                 </div>
                             </div>
                         </div>
@@ -852,8 +922,7 @@
                     <img src="img/orange.jpg" alt="" class="object-contain h-full">
                 </div>
                 <div class="partner-logo flex items-center justify-center w-40 h-24">
-                    <img src="https://accademia.terangacode.com/wp-content/uploads/2024/12/terangacode-logo.png"
-                        alt="Partner 4" class="object-contain h-full" />
+                    <img src="img/akademi.jpg" alt="Partner 4" class="object-contain h-full" />
                 </div>
                 <div class="partner-logo flex items-center justify-center w-40 h-24">
                     <img src="img/bdnf.jpg" alt="" class="object-contain h-full">
@@ -871,8 +940,7 @@
                     <img src="img/orange.jpg" alt="" class="object-contain h-full">
                 </div>
                 <div class="partner-logo flex items-center justify-center w-40 h-24">
-                    <img src="https://accademia.terangacode.com/wp-content/uploads/2024/12/terangacode-logo.png"
-                        alt="Partner 4" class="object-contain h-full" />
+                    <img src="img/akademi.jpg" alt="Partner 4" class="object-contain h-full" />
                 </div>
                 <div class="partner-logo flex items-center justify-center w-40 h-24">
                     <img src="img/bdnf.jpg" alt="" class="object-contain h-full">
