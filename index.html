@@ -10,6 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function () {
+           emailjs.init("lXyS4PJ5u1pyxxRzO");
+        })();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>tailwind.config = { theme: { extend: { colors: { primary: '#3b82f6', secondary: '#64748b' }, borderRadius: { 'none': '0px', 'sm': '4px', DEFAULT: '8px', 'md': '12px', 'lg': '16px', 'xl': '20px', '2xl': '24px', '3xl': '32px', 'full': '9999px', 'button': '8px' } } } }</script>
     <style>
         :where([class^="ri-"])::before {
@@ -864,7 +872,8 @@
                                 conformément à la politique de confidentialité.</label>
                         </div>
                         <button type="submit"
-                            class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-blue-600 transition-colors shadow-md whitespace-nowrap" onclick="sendMessage()">
+                            class="bg-primary text-white px-6 py-3 rounded-button font-medium hover:bg-blue-600 transition-colors shadow-md whitespace-nowrap"
+                            onclick="sendMessage()">
                             Envoyer le message
                         </button>
                     </form>
@@ -872,28 +881,18 @@
 
                 <!-- envoie mails -->
                 <script>
-                    function sendMessage(){
-                        (function(){
-                            emailjs.init("lXyS4PJ5u1pyxxRzO");
-
-                        })();
-                        // email service id
-                        var serviceID = "service_jnjv73b"; 
-                        // email template id
-                        var templateID = "template_5gumri5";
-
+                    function sendMessage() {
                         var params = {
-                            senderName: document.querySelector("firstname").value,
-                            senderLastName: document.querySelector("lastname").value,
-                            senderEmail: document.querySelector("email").value,
-                            subject: document.querySelector("subject").value,
-                            message: document.querySelector("message").value,
+                            name: document.getElementById("firstname").value,
+                            lastName: document.getElementById("lastname").value,
+                            email: document.getElementById("email").value,
+                            subject: document.getElementById("subject").value,
+                            message: document.getElementById("message").value,
                         };
 
-                        emailjs.send(serviceID, templateID, params).then(res =>{
-                            alert("Merci {{senderName}} + {{senderLastName}} <br> Votre message a bien été envoyé");
+                        emailjs.send("service_jnjv73b", "template_5gumri5", params).then(res => {
                         })
-                        .catch();
+                            .catch();
                     }
                 </script>
 
@@ -978,37 +977,50 @@
         </div>
     </section>
 
-    <script id="contact-form-script">
-        document.addEventListener('DOMContentLoaded', function () {
-            const contactForm = document.getElementById('contact-form');
+   <script id="contact-form-script">
+    document.addEventListener('DOMContentLoaded', function () {
+        const contactForm = document.getElementById('contact-form');
 
-            contactForm.addEventListener('submit', function (e) {
-                e.preventDefault();
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
 
-                // Simple validation
-                const firstname = document.getElementById('firstname').value;
-                const lastname = document.getElementById('lastname').value;
-                const email = document.getElementById('email').value;
-                const subject = document.getElementById('subject').value;
-                const message = document.getElementById('message').value;
-                const privacy = document.getElementById('privacy').checked;
+            const firstname = document.getElementById('firstname').value;
+            const lastname = document.getElementById('lastname').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            const privacy = document.getElementById('privacy').checked;
 
-                if (!firstname || !lastname || !email || !subject || !message) {
-                    alert('Veuillez remplir tous les champs obligatoires.');
-                    return;
-                }
+            if (!firstname || !lastname || !email || !subject || !message) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Champs requis',
+                    text: 'Veuillez remplir tous les champs obligatoires.',
+                });
+                return;
+            }
 
-                if (!privacy) {
-                    alert('Veuillez accepter la politique de confidentialité.');
-                    return;
-                }
+            if (!privacy) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Confidentialité',
+                    text: 'Veuillez accepter la politique de confidentialité.',
+                });
+                return;
+            }
 
-                // Simulate form submission
-                alert('Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
-                contactForm.reset();
+            // Simulation d'envoi du message
+            Swal.fire({
+                icon: 'success',
+                title: 'Message envoyé !',
+                text: 'Nous vous répondrons dans les plus brefs délais.',
             });
+
+            contactForm.reset();
         });
-    </script>
+    });
+</script>
+
 
     <!-- envoie mails -->
     <script>
