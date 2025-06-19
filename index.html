@@ -150,6 +150,23 @@
             /* orange foncé */
             font-weight: 600;
         }
+
+
+        .scroll-link.active {
+            color: #ea580c !important;
+            font-weight: 600;
+        }
+
+        .section-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s ease-out;
+        }
+
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 
@@ -290,9 +307,68 @@
     </script>
 
 
+     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const scrollLinks = document.querySelectorAll('.scroll-link');
+            const sections = document.querySelectorAll('section[id]');
+
+            scrollLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const link = document.querySelector(`.scroll-link[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        scrollLinks.forEach(l => l.classList.remove('active'));
+                        if (link) link.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            sections.forEach(section => observer.observe(section));
+
+            // Forcer la mise à jour après chargement de la page
+            setTimeout(() => {
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                    if (isVisible) {
+                        const id = section.getAttribute('id');
+                        scrollLinks.forEach(l => l.classList.remove('active'));
+                        document.querySelector(`.scroll-link[href="#${id}"]`)?.classList.add('active');
+                    }
+                });
+            }, 300);
+
+            // Animation d'apparition au scroll
+            const animSections = document.querySelectorAll('.section-animate');
+            const animObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('section-visible');
+                        animObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            animSections.forEach(section => animObserver.observe(section));
+        });
+    </script>
 
     <!-- Hero Section -->
-    <section id="accueil" class="w-full min-h-screen pt-20 flex items-center"
+    <section id="accueil" class="w-full min-h-screen pt-20 flex items-center section-animate"
         style="background-image: url('img/banner.jpg'); background-size: cover; background-position: center;">
         <div class="container mx-auto px-6 py-20 w-full">
             <div class="max-w-3xl bg-white/80 backdrop-blur-sm p-10 rounded-lg shadow-lg">
@@ -316,7 +392,7 @@
     </section>
 
     <!-- À propos Section -->
-    <section id="a-propos" class="py-20 min-h-screen bg-white">
+    <section id="a-propos" class="py-20 min-h-screen bg-white section-animate">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center text-gray-900 mb-16">À propos de nous</h2>
 
@@ -538,7 +614,7 @@
     </section>
 
     <!-- Réalisations Section -->
-    <section id="realisations" class="py-20 bg-gray-50">
+    <section id="realisations" class="py-20 bg-gray-50 section-animate">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center  mb-6">Nos réalisations</h2>
             <p class=" text-center max-w-3xl mx-auto mb-12">Découvrez notre portfolio de projets web et
@@ -714,7 +790,7 @@
 
     </section>
     <!-- Témoignages Section -->
-    <section id="temoignages" class="py-20 bg-white">
+    <section id="temoignages" class="py-20 bg-white section-animate">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Ce que disent nos clients</h2>
             <p class="text-gray-600 text-center max-w-3xl mx-auto mb-12">Découvrez les retours d'expérience de nos
@@ -905,7 +981,7 @@
     </script>
 
     <!-- SECTION CAROUSEL PARTENAIRES -->
-    <section class="partners-carousel py-10 bg-white overflow-hidden">
+    <section class="partners-carousel py-10 bg-white overflow-hidden section-animate">
         <h2 class="text-2xl font-bold text-center mb-8">Ils nous font confiance</h2>
         <br>
         <div class="partners-track relative w-full">
@@ -952,7 +1028,7 @@
 
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-gray-50 relative">
+    <section id="contact" class="py-20 bg-gray-50 relative section-animate">
         <div class="container mx-auto px-6 relative z-10">
             <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Contactez-nous</h2>
             <p class="text-gray-600 text-center max-w-3xl mx-auto mb-12">
